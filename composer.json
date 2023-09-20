@@ -1,0 +1,20 @@
+{
+    "name": "letmepay-io/sdk",
+    "description": "SDK for emit charges, payments and validations",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "LetmepayIo\\Sdk\\": "src/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^6.0"
+    },
+    "authors": [
+        {
+            "name": "Fernando Fabricio dos Santos",
+            "email": "fernando@letmepay.io"
+        }
+    ]
+}

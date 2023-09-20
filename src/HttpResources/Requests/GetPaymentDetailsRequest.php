@@ -1,6 +1,6 @@
 <?php
 
-namespace LetmepayIo\Sdk\HttpClient\Requests;
+namespace LetmepayIo\Sdk\HttpResources\Requests;
 
 use LetmepayIo\Sdk\HttpClient\Responses\PaymentResponse;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace LetmepayIo\Sdk\HttpClient\Responses;
+namespace LetmepayIo\Sdk\HttpResources\Responses;
 
 class AuthenticationResponse implements LMPResponseInterface
 {

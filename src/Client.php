@@ -1,21 +1,21 @@
 <?php
 
-namespace LetmepayIo\Sdk\HttpClient;
+namespace LetmepayIo\Sdk;
 
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use LetmepayIo\Sdk\DTO\Config;
-use LetmepayIo\Sdk\HttpClient\Requests\AuthenticationRequest;
-use LetmepayIo\Sdk\HttpClient\Requests\CreateChargeRequest;
-use LetmepayIo\Sdk\HttpClient\Requests\CreatePaymentRequest;
-use LetmepayIo\Sdk\HttpClient\Requests\GetChargeRequest;
-use LetmepayIo\Sdk\HttpClient\Requests\GetPixChargeDetailsRequest;
-use LetmepayIo\Sdk\HttpClient\Requests\LMPRequestInterface;
-use LetmepayIo\Sdk\HttpClient\Responses\AuthenticationResponse;
-use LetmepayIo\Sdk\HttpClient\Responses\ErrorLMPResponse;
-use LetmepayIo\Sdk\HttpClient\Responses\LMPResponseInterface;
+use LetmepayIo\Sdk\HttpResources\Requests\AuthenticationRequest;
+use LetmepayIo\Sdk\HttpResources\Requests\CreateChargeRequest;
+use LetmepayIo\Sdk\HttpResources\Requests\CreatePaymentRequest;
+use LetmepayIo\Sdk\HttpResources\Requests\GetChargeRequest;
+use LetmepayIo\Sdk\HttpResources\Requests\GetPixChargeDetailsRequest;
+use LetmepayIo\Sdk\HttpResources\Requests\LMPRequestInterface;
+use LetmepayIo\Sdk\HttpResources\Responses\AuthenticationResponse;
+use LetmepayIo\Sdk\HttpResources\Responses\ErrorLMPResponse;
+use LetmepayIo\Sdk\HttpResources\Responses\LMPResponseInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class Client

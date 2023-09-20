@@ -56,10 +56,10 @@ class Client
             $headers = [
                 'Content-Type' => 'application/json'
             ];
-            $baseUrl = $this->baseUrl;
+            $baseUrl = $this->config->getBaseUrl();
 
             if ($request->isAuth()) {
-                $baseUrl = $this->config-;
+                $baseUrl = $this->config->getAuthUrl();
             } else {
                 $headers['Authorization'] = sprintf('Bearer %s', $this->accessToken);
             }
@@ -77,7 +77,7 @@ class Client
             if ($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
                 $data = json_decode($res->getBody()->getContents(), true);
                 /**
-                 * @var LMPResponseInterface
+                 * @var LMPResponseInterface $response
                  */
                 $response = new ($request->responseClass())();
                 $response->setData($data);
@@ -101,10 +101,10 @@ class Client
         $request = (new AuthenticationRequest())
             ->setClientId($this->config->getClientId())
             ->setClientSecret($this->config->getClientSecret())
-            ->setAudience($this->baseUrl);
+            ->setAudience($this->config->getBaseUrl());
 
         /**
-         * @var AuthenticationResponse
+         * @var AuthenticationResponse $response
          */
         $response = $this->executeRequest($request);
         if ($response->isOk()) {
@@ -123,50 +123,90 @@ class Client
      * @param int $expiration
      * @param array $splits
      * @return LMPResponseInterface
-     * @throws GuzzleException
+     * @throws Exception
      */
     public function createCharge(string $payerTaxId, float $amount, string $externalId, string $description, int $expiration = 0, array $splits = []): LMPResponseInterface
     {
-        $this->authenticate();
-        $request = (new CreateChargeRequest())
-            ->setPayerTaxId($payerTaxId)
-            ->setAmount($amount)
-            ->setExternalId($externalId)
-            ->setDescription($description)
-            ->setExpiration($expiration)
-            ->setSplits($splits);
+        try {
+            $this->authenticate();
+            $request = (new CreateChargeRequest())
+                ->setPayerTaxId($payerTaxId)
+                ->setAmount($amount)
+                ->setExternalId($externalId)
+                ->setDescription($description)
+                ->setExpiration($expiration)
+                ->setSplits($splits);
 
-        return $this->executeRequest($request);
+            return $this->executeRequest($request);
+        } catch (GuzzleException $e) {
+            //TODO: debug
+        }
+        throw new Exception('Unexpected error, please contact support.');
     }
 
+    /**
+     * @param string $id
+     * @return LMPResponseInterface
+     * @throws Exception
+     */
     public function getCharge(string $id): LMPResponseInterface
     {
-        $this->authenticate();
+        try {
+            $this->authenticate();
 
-        $request = (new GetChargeRequest())->setId($id);
-        return $this->executeRequest($request);
+            $request = (new GetChargeRequest())->setId($id);
+            return $this->executeRequest($request);
+        } catch (GuzzleException $e) {
+            //TODO: debug
+        }
+        throw new Exception('Unexpected error, please contact support.');
     }
 
+    /**
+     * @param string $id
+     * @return LMPResponseInterface
+     * @throws Exception
+     */
     public function getQrCode(string $id): LMPResponseInterface
     {
-        $this->authenticate();
+        try {
+            $this->authenticate();
 
-        $request = (new GetPixChargeDetailsRequest())->setId($id);
-        return $this->executeRequest($request);
+            $request = (new GetPixChargeDetailsRequest())->setId($id);
+            return $this->executeRequest($request);
+        } catch (GuzzleException $e) {
+            //TODO: debug
+        }
+        throw new Exception('Unexpected error, please contact support.');
     }
 
+    /**
+     * @param string $payerTaxId
+     * @param string $keyType
+     * @param string $key
+     * @param int $amount
+     * @param string $externalId
+     * @param string $description
+     * @return LMPResponseInterface
+     * @throws Exception
+     */
     public function createPayment(string $payerTaxId, string $keyType, string $key, int $amount, string $externalId, string $description): LMPResponseInterface
     {
-        $this->authenticate();
+        try {
+            $this->authenticate();
 
-        $request = (new CreatePaymentRequest())
-            ->setType('pix')
-            ->setPayerTaxId($payerTaxId)
-            ->setKeyType($keyType)
-            ->setKey($key)
-            ->setAmount($amount)
-            ->setExternalId($externalId)
-            ->setDescription($description);
-        return $this->executeRequest($request);
+            $request = (new CreatePaymentRequest())
+                ->setType('pix')
+                ->setPayerTaxId($payerTaxId)
+                ->setKeyType($keyType)
+                ->setKey($key)
+                ->setAmount($amount)
+                ->setExternalId($externalId)
+                ->setDescription($description);
+            return $this->executeRequest($request);
+        } catch (GuzzleException $e) {
+            //TODO: debug
+        }
+        throw new Exception('Unexpected error, please contact support.');
     }
 }

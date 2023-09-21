@@ -6,7 +6,11 @@ use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
+use LetmepayIo\Sdk\DTO\Charge;
+use LetmepayIo\Sdk\DTO\ChargePixDetails;
 use LetmepayIo\Sdk\DTO\Config;
+use LetmepayIo\Sdk\DTO\Payment;
+use LetmepayIo\Sdk\Exceptions\Error;
 use LetmepayIo\Sdk\HttpResources\Requests\AuthenticationRequest;
 use LetmepayIo\Sdk\HttpResources\Requests\CreateChargeRequest;
 use LetmepayIo\Sdk\HttpResources\Requests\CreatePaymentRequest;
@@ -21,9 +25,7 @@ use Psr\Http\Message\ResponseInterface;
 class Client
 {
     private string $accessToken = '';
-    private string $baseUrl;
 
-    private string $authUrl;
     private GuzzleClient $client;
 
     private Config $config;
@@ -112,7 +114,10 @@ class Client
             return;
         }
 
-        throw new \Exception('Invalid Credentials.');
+        $error = new Error('Invalid Credentials.', 403);
+        $error->setErrors([
+            'client_id' => $this->config->getClientId(),
+        ]);
     }
 
     /**
@@ -122,10 +127,10 @@ class Client
      * @param string $description
      * @param int $expiration
      * @param array $splits
-     * @return LMPResponseInterface
-     * @throws Exception
+     * @return Charge
+     * @throws Error
      */
-    public function createCharge(string $payerTaxId, float $amount, string $externalId, string $description, int $expiration = 0, array $splits = []): LMPResponseInterface
+    public function createCharge(string $payerTaxId, float $amount, string $externalId, string $description, int $expiration = 0, array $splits = []): Charge
     {
         try {
             $this->authenticate();
@@ -137,47 +142,65 @@ class Client
                 ->setExpiration($expiration)
                 ->setSplits($splits);
 
-            return $this->executeRequest($request);
+            $response = $this->executeRequest($request);
+            if ($response->isOk()) {
+                return $response->getCharge();
+            }
+
+            throw new Exception($response->getMessage());
         } catch (GuzzleException $e) {
-            //TODO: debug
+            $error = new Error($e->getMessage(), $e->getCode());
+            $error->setErrors(['type' => 'unexpected']);
+            throw $error;
         }
-        throw new Exception('Unexpected error, please contact support.');
     }
 
     /**
      * @param string $id
-     * @return LMPResponseInterface
-     * @throws Exception
+     * @return Charge
+     * @throws Error
      */
-    public function getCharge(string $id): LMPResponseInterface
+    public function getCharge(string $id): Charge
     {
         try {
             $this->authenticate();
 
             $request = (new GetChargeRequest())->setId($id);
-            return $this->executeRequest($request);
+            $response = $this->executeRequest($request);
+            if ($response->isOk()) {
+                return $response->getCharge();
+            }
+
+            throw new Exception($response->getMessage());
         } catch (GuzzleException $e) {
-            //TODO: debug
+            $error = new Error($e->getMessage(), $e->getCode());
+            $error->setErrors(['type' => 'unexpected']);
+            throw $error;
         }
-        throw new Exception('Unexpected error, please contact support.');
     }
 
     /**
      * @param string $id
-     * @return LMPResponseInterface
-     * @throws Exception
+     * @return ChargePixDetails
+     * @throws Error
      */
-    public function getQrCode(string $id): LMPResponseInterface
+    public function getQrCode(string $id): ChargePixDetails
     {
         try {
             $this->authenticate();
 
             $request = (new GetPixChargeDetailsRequest())->setId($id);
-            return $this->executeRequest($request);
+            $response = $this->executeRequest($request);
+            if ($response->isOk()) {
+                return $response->getChargePixDetails();
+            }
+
+            throw new Exception($response->getMessage());
         } catch (GuzzleException $e) {
-            //TODO: debug
+            $error = new Error($e->getMessage(), $e->getCode());
+            $error->setErrors(['type' => 'unexpected']);
+            throw $error;
         }
-        throw new Exception('Unexpected error, please contact support.');
     }
 
     /**
@@ -187,10 +210,10 @@ class Client
      * @param int $amount
      * @param string $externalId
      * @param string $description
-     * @return LMPResponseInterface
+     * @return Payment
      * @throws Exception
      */
-    public function createPayment(string $payerTaxId, string $keyType, string $key, int $amount, string $externalId, string $description): LMPResponseInterface
+    public function createPayment(string $payerTaxId, string $keyType, string $key, int $amount, string $externalId, string $description): Payment
     {
         try {
             $this->authenticate();
@@ -203,10 +226,16 @@ class Client
                 ->setAmount($amount)
                 ->setExternalId($externalId)
                 ->setDescription($description);
-            return $this->executeRequest($request);
+            $response = $this->executeRequest($request);
+            if ($response->isOk()) {
+                return $response->getPayment();
+            }
+
+            throw new Exception($response->getMessage());
         } catch (GuzzleException $e) {
-            //TODO: debug
+            $error = new Error($e->getMessage(), $e->getCode());
+            $error->setErrors(['type' => 'unexpected']);
+            throw $error;
         }
-        throw new Exception('Unexpected error, please contact support.');
     }
 }

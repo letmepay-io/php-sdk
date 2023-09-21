@@ -48,10 +48,17 @@ class ErrorLMPResponse implements LMPResponseInterface
 
     public function setData(array $data): LMPResponseInterface
     {
-        $this->debugTraceId = $data['debug_trace_id'];
-        $this->message = $data['message'];
-        $this->errors = $data['errors'];
-        $this->status = $data['status'];
+        if (
+            array_key_exists('debug_trace_id', $data) &&
+            array_key_exists('message', $data) &&
+            array_key_exists('errors', $data) &&
+            array_key_exists('status', $data)
+        ) {
+            $this->debugTraceId = $data['debug_trace_id'];
+            $this->message = $data['message'];
+            $this->errors = $data['errors'];
+            $this->status = $data['status'];
+        }
 
         return $this;
     }

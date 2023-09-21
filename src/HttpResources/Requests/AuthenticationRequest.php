@@ -2,7 +2,7 @@
 
 namespace LetmepayIo\Sdk\HttpResources\Requests;
 
-use LetmepayIo\Sdk\HttpClient\Responses\AuthenticationResponse;
+use LetmepayIo\Sdk\HttpResources\Responses\AuthenticationResponse;
 
 class AuthenticationRequest implements LMPRequestInterface
 {

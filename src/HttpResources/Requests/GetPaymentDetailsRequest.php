@@ -2,7 +2,7 @@
 
 namespace LetmepayIo\Sdk\HttpResources\Requests;
 
-use LetmepayIo\Sdk\HttpClient\Responses\PaymentResponse;
+use LetmepayIo\Sdk\HttpResources\Responses\PaymentResponse;
 
 class GetPaymentDetailsRequest implements LMPRequestInterface
 {

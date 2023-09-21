@@ -2,7 +2,7 @@
 
 namespace LetmepayIo\Sdk\HttpResources\Requests;
 
-use LetmepayIo\Sdk\HttpClient\Responses\GetPixChargeDetailsResponse;
+use LetmepayIo\Sdk\HttpResources\Responses\GetPixChargeDetailsResponse;
 
 class GetPixChargeDetailsRequest implements LMPRequestInterface
 {

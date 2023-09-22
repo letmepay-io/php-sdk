@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\DTO;
+namespace LetmepayIo\Tests\Unit\DTO;
 
 use LetmepayIo\Sdk\DTO\Config;
 use PHPUnit\Framework\TestCase;

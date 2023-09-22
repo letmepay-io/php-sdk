@@ -2,6 +2,7 @@
 
 namespace LetmepayIo\Sdk\HttpResources\Requests;
 
+use LetmepayIo\Sdk\Exceptions\Error;
 use LetmepayIo\Sdk\HttpResources\Responses\PaymentResponse;
 
 class CreatePaymentRequest implements LMPRequestInterface
@@ -11,7 +12,7 @@ class CreatePaymentRequest implements LMPRequestInterface
     private string $description = '';
     private string $keyType = '';
     private string $key = '';
-    private int $amount = 0;
+    private string $amount = '';
     private string $externalId = '';
 
     public function path(): string
@@ -29,16 +30,33 @@ class CreatePaymentRequest implements LMPRequestInterface
         return PaymentResponse::class;
     }
 
+    /**
+     * @return array|null
+     * @throws Error
+     */
     public function body(): ?array
     {
-        $sa = (string)$this->amount;
-        $sa = str_pad($sa, 3, '0', STR_PAD_LEFT);
-        $sa = substr_replace($sa, '.', -2, -2);
+        if (
+            $this->key == '' ||
+            $this->keyType == '' ||
+            $this->amount == '' ||
+            $this->payerTaxId == '' ||
+            $this->type == '' ||
+            $this->externalId == '' ||
+            $this->description == ''
+
+        ) {
+            throw new Error('The key, key_type, amount, payer_tax_id, type, external_id and description parameters are required.');
+        }
+
+        if ($this->amount == '0.00') {
+            throw new Error('The amount parameter must to be greater then 0.');
+        }
 
         return [
             'key' => $this->key,
             'key_type' => $this->keyType,
-            'amount' => $sa,
+            'amount' => $this->amount,
             'payer_tax_id' => $this->payerTaxId,
             'type' => $this->type,
             'external_id' => $this->externalId,
@@ -105,9 +123,12 @@ class CreatePaymentRequest implements LMPRequestInterface
      * @param int $amount
      * @return CreatePaymentRequest
      */
-    public function setAmount(int $amount): CreatePaymentRequest
+    public function setAmount(int $amount = 0): CreatePaymentRequest
     {
-        $this->amount = $amount;
+        $sa = (string)$amount;
+        $sa = str_pad($sa, 3, '0', STR_PAD_LEFT);
+        $sa = substr_replace($sa, '.', -2, -2);
+        $this->amount = $sa;
         return $this;
     }
 

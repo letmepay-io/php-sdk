@@ -2,6 +2,7 @@
 
 namespace LetmepayIo\Sdk\HttpResources\Requests;
 
+use LetmepayIo\Sdk\Exceptions\Error;
 use LetmepayIo\Sdk\HttpResources\Responses\ChargeResponse;
 
 class CreateChargeRequest implements LMPRequestInterface
@@ -30,7 +31,7 @@ class CreateChargeRequest implements LMPRequestInterface
 
     public function method(): string
     {
-        return \Symfony\Component\HttpFoundation\Request::METHOD_POST;
+        return 'POST';
     }
 
     public function responseClass(): string
@@ -40,6 +41,14 @@ class CreateChargeRequest implements LMPRequestInterface
 
     public function body(): ?array
     {
+        if (
+            $this->payerTaxId == '' ||
+            $this->amount == 0.0 ||
+            $this->externalId == ''
+        ) {
+            throw new Error('The payer_tax_id, amount and external_id parameters are required.');
+        }
+
         $body = [
             'payer_tax_id' => $this->payerTaxId,
             'amount' => $this->amount,

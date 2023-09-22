@@ -2,13 +2,14 @@
 
 namespace LetmepayIo\Sdk\HttpResources\Requests;
 
+use LetmepayIo\Sdk\Exceptions\Error;
 use LetmepayIo\Sdk\HttpResources\Responses\AuthenticationResponse;
 
 class AuthenticationRequest implements LMPRequestInterface
 {
-    private string $audience;
-    private string $clientId;
-    private string $clientSecret;
+    private ?string $audience = null;
+    private ?string $clientId = null;
+    private ?string $clientSecret = null;
 
     /**
      * @param string $audience
@@ -60,13 +61,25 @@ class AuthenticationRequest implements LMPRequestInterface
         return true;
     }
 
+    /**
+     * @return array|null
+     * @throws Error
+     */
     public function body(): ?array
     {
-        return [
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'audience' => $this->audience,
-            'grant_type' => 'client_credentials'
-        ];
+        if (
+            !is_null($this->clientId) &&
+            !is_null($this->clientSecret) &&
+            !is_null($this->audience)
+        ) {
+            return [
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'audience' => $this->audience,
+                'grant_type' => 'client_credentials'
+            ];
+        }
+
+        throw new Error('The params client_id, client_secret and audience are required.');
     }
 }

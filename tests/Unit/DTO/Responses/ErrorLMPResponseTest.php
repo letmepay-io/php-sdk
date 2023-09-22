@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\HttpResources\Responses;
+namespace LetmepayIo\Tests\Unit\DTO\Responses;
 
 use LetmepayIo\Sdk\HttpResources\Responses\ErrorLMPResponse;
 use PHPUnit\Framework\TestCase;

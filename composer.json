@@ -8,6 +8,11 @@
             "LetmepayIo\\Sdk\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "LetmepayIo\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "guzzlehttp/guzzle": "^6.0|^7",
         "ext-json": "*",

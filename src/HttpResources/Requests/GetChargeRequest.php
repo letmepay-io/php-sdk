@@ -2,14 +2,22 @@
 
 namespace LetmepayIo\Sdk\HttpResources\Requests;
 
+use LetmepayIo\Sdk\Exceptions\Error;
 use LetmepayIo\Sdk\HttpResources\Responses\ChargeResponse;
 
 class GetChargeRequest implements LMPRequestInterface
 {
     private string $id = '';
 
+    /**
+     * @return string
+     * @throws Error
+     */
     public function path(): string
     {
+        if ($this->id == '') {
+            throw new Error('The id parameter is required.');
+        }
         return sprintf('/v1/charges/%s', $this->id);
     }
 

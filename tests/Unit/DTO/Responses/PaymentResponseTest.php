@@ -1,10 +1,8 @@
 <?php
 
-namespace Unit\HttpResources\Responses;
+namespace LetmepayIo\Tests\Unit\DTO\Responses;
 
-use LetmepayIo\Sdk\DTO\Charge;
 use LetmepayIo\Sdk\DTO\Payment;
-use LetmepayIo\Sdk\HttpResources\Responses\ChargeResponse;
 use LetmepayIo\Sdk\HttpResources\Responses\PaymentResponse;
 use PHPUnit\Framework\TestCase;
 

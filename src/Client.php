@@ -36,6 +36,18 @@ class Client
         $this->client = new GuzzleClient();
     }
 
+    public function setClient(GuzzleClient $client) : self
+    {
+        $this->client = $client;
+        return $this;
+    }
+
+    public function setConfig(Config $config) : self
+    {
+        $this->config = $config;
+        return $this;
+    }
+
     private function handleErrorBody(ResponseInterface $response): LMPResponseInterface
     {
         try {
@@ -118,6 +130,7 @@ class Client
         $error->setErrors([
             'client_id' => $this->config->getClientId(),
         ]);
+        throw $error;
     }
 
     /**

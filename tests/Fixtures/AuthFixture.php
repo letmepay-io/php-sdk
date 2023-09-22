@@ -1,0 +1,16 @@
+<?php
+
+namespace LetmepayIo\Tests\Fixtures;
+
+class AuthFixture
+{
+    public static function error() : string
+    {
+        return '{"error":"access_denied","error_description":"Unauthorized"}';
+    }
+
+    public static function success() : string
+    {
+        return '{"access_token":"eyJHbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjczRTBnZlEzLVhWLXo3RWVNc3JDVSJ9.eyJpc3MiOiJodHRwczovL2F1dGguc2FuZGJveC5sZXRtZXBheS5pby8iLCJzdWIiOiJIV2JvYnJoUXNabnZMQUwxVVVHQWtDTkptUkxoOEgwbEBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5sZXRtZXBheS5pbyIsImlhdCI6MTY5NTQwNjY2MiwiZXhwIjoxNjk1NDkzMDYyLCJhenAiOiJIV2JvYnJoUXNabnZMQUwxVVVHQWtDTkptUkxoOEgwbCIsInNjb3BlIjoicmVhZDpjaGFyZ2VzIHJlYWQ6cGF5bWVudHMgcmVhZDp2YWxpZGF0aW9ucyBjcmVhdGU6Y2hhcmdlcyBjcmVhdGU6Y29uZmlybWF0aW9uIGNyZWF0ZTp2YWxpZGF0aW9ucyBjcmVhdGU6cGF5bWVudHMgbGlzdDpjaGFyZ2VzIGxpc3Q6cGF5bWVudHMgbGlzdDp2YWxpZGF0aW9ucyBkZWxldGU6Y2hhcmdlcyBkZWxldGU6cGF5bWVudHMgZGVsZXRlOnZhbGlkYXRpb25zIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.CDZuPPAyswWxZU3ErJRtPtUzQfOuYswE_e9647mI0I4nOCZ7pJ1eU-qs1kPxVd3XELBsHYOFm81we2rMR8xqKU4m6_YWyfA6rWzSU6HRzRH0ihogBJ0EtXOPE8jlV36vPBxZwqmCeCosuHBje-gdQ4HHlLzVtfve3VVdSZCipIin6z6_ENjp5MO26s_XysBGe9WqDFQtqly6AM2IBtrZLqBxp7j60Vq-cxwuSF8ty0cr_8ZTkgQG3Xn7_5WGiDkH20CsACuTl7kDYlNxqJwpliLyWMVmSkeVQbsm4GS6UwPzO3XriFBddanEnd1cy1HCfcY8BJfMy6RElAZuKKHc9Q","scope":"read:charges read:payments read:validations create:charges create:confirmation create:validations create:payments list:charges list:payments list:validations delete:charges delete:payments delete:validations","expires_in":86400,"token_type":"Bearer"}';
+    }
+}
